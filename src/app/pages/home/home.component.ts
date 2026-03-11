@@ -12,7 +12,7 @@ import { SupabaseService } from '../../core/services/supabase.service';
       <!-- Header -->
       <div class="flex items-end justify-between">
         <div>
-          <h1 class="text-3xl font-display font-bold text-gray-900 tracking-tight">Buenos días, Alex</h1>
+          <h1 class="text-3xl font-display font-bold text-gray-900 tracking-tight">{{ greeting }}, {{ userName }}</h1>
           <p class="text-gray-500 mt-1">Aquí tienes el resumen de tu workspace en tiempo real.</p>
         </div>
         <div class="flex gap-3">
@@ -207,6 +207,9 @@ export class HomeComponent implements OnInit {
     { label: 'Tareas Completadas', value: '148', trend: 15.3, icon: 'task_alt', colorClass: 'bg-brand-100 text-brand-600' },
   ];
 
+  userName = 'Workspace';
+  greeting = 'Hola';
+
   tasks: any[] = [];
   projects: any[] = [];
   meetings: any[] = [];
@@ -215,7 +218,12 @@ export class HomeComponent implements OnInit {
   constructor(
     private supabase: SupabaseService,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) {
+    const hour = new Date().getHours();
+    if (hour >= 6 && hour < 14) this.greeting = 'Buenos días';
+    else if (hour >= 14 && hour < 21) this.greeting = 'Buenas tardes';
+    else this.greeting = 'Buenas noches';
+  }
 
   ngOnInit() {
     this.loadData();
@@ -223,10 +231,22 @@ export class HomeComponent implements OnInit {
 
   async loadData() {
     try {
-      this.projects = await this.supabase.getActiveProjects();
-      this.tasks = await this.supabase.getTodayTasks();
-      this.meetings = await this.supabase.getUpcomingMeetings();
-      this.activities = await this.supabase.getRecentActivity();
+      const [profile, projects, tasks, meetings, activities] = await Promise.all([
+        this.supabase.getMyProfile(),
+        this.supabase.getActiveProjects(),
+        this.supabase.getTodayTasks(),
+        this.supabase.getUpcomingMeetings(),
+        this.supabase.getRecentActivity()
+      ]);
+
+      if (profile?.full_name) {
+        // Show first name only for a friendlier greeting
+        this.userName = profile.full_name.split(' ')[0];
+      }
+      this.projects = projects;
+      this.tasks = tasks;
+      this.meetings = meetings;
+      this.activities = activities;
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
     } finally {

@@ -39,152 +39,213 @@ import { SupabaseService } from '../../core/services/supabase.service';
         <!-- Sidebar Navigation -->
         <div class="w-full md:w-64 flex-shrink-0">
           <nav class="space-y-1">
-            <button class="w-full flex items-center gap-3 px-3 py-2.5 bg-brand-50 text-brand-700 rounded-xl text-sm font-bold transition-all shadow-sm shadow-brand-500/10">
+            <button (click)="currentTab = 'profile'" [class]="currentTab === 'profile' ? 'w-full flex items-center gap-3 px-3 py-2.5 bg-brand-50 text-brand-700 rounded-xl text-sm font-bold transition-all shadow-sm shadow-brand-500/10' : 'w-full flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-100/70 rounded-xl text-sm font-bold transition-all'">
               <mat-icon class="!w-5 !h-5 !text-[20px]">person</mat-icon> Perfil de Usuario
             </button>
-            <button class="w-full flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-100/70 rounded-xl text-sm font-bold transition-all">
+            <button class="w-full flex items-center gap-3 px-3 py-2.5 text-gray-400 cursor-not-allowed rounded-xl text-sm font-bold transition-all">
               <mat-icon class="!w-5 !h-5 !text-[20px]">business</mat-icon> Detalles de Empresa
             </button>
-            <button class="w-full flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-100/70 rounded-xl text-sm font-bold transition-all">
+            <button (click)="currentTab = 'team'" [class]="currentTab === 'team' ? 'w-full flex items-center gap-3 px-3 py-2.5 bg-brand-50 text-brand-700 rounded-xl text-sm font-bold transition-all shadow-sm shadow-brand-500/10' : 'w-full flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-100/70 rounded-xl text-sm font-bold transition-all'">
               <mat-icon class="!w-5 !h-5 !text-[20px]">group</mat-icon> Equipo y Roles
             </button>
-            <button class="w-full flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-100/70 rounded-xl text-sm font-bold transition-all">
+            <button class="w-full flex items-center gap-3 px-3 py-2.5 text-gray-400 cursor-not-allowed rounded-xl text-sm font-bold transition-all">
               <mat-icon class="!w-5 !h-5 !text-[20px]">view_kanban</mat-icon> Estados CRM
             </button>
-            <button class="w-full flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-100/70 rounded-xl text-sm font-bold transition-all">
+            <button class="w-full flex items-center gap-3 px-3 py-2.5 text-gray-400 cursor-not-allowed rounded-xl text-sm font-bold transition-all">
               <mat-icon class="!w-5 !h-5 !text-[20px]">extension</mat-icon> Integraciones
             </button>
-            <button class="w-full flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-100/70 rounded-xl text-sm font-bold transition-all">
+            <button class="w-full flex items-center gap-3 px-3 py-2.5 text-gray-400 cursor-not-allowed rounded-xl text-sm font-bold transition-all">
               <mat-icon class="!w-5 !h-5 !text-[20px]">notifications</mat-icon> Notificaciones
             </button>
           </nav>
         </div>
 
         <!-- Main Content Area -->
-        <div class="flex-1 space-y-6">
+          <div class="flex-1 space-y-6">
           
-          <!-- Profile Section -->
-          <div class="bg-white rounded-3xl border border-gray-200 shadow-xl shadow-gray-200/40 overflow-hidden">
-            <div class="p-8 border-b border-gray-100 bg-gray-50/30">
-              <h2 class="text-lg font-bold text-gray-900">Perfil de Usuario</h2>
-              <p class="text-sm text-gray-500 mt-1 font-medium">Actualiza tu información personal y foto de perfil.</p>
-            </div>
-            
-            <div class="p-8 space-y-8">
-              <!-- Avatar Upload -->
-              <div class="flex flex-col sm:flex-row items-center gap-8">
-                <div class="relative group">
-                    <img 
-                        [src]="profile?.avatar_url || 'https://i.pravatar.cc/150?u=admin'" 
-                        class="w-24 h-24 rounded-3xl object-cover border-4 border-white shadow-xl group-hover:brightness-90 transition-all" 
-                        alt="Profile" 
-                        referrerpolicy="no-referrer" />
-                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <mat-icon class="text-white">camera_alt</mat-icon>
-                    </div>
+          @if (currentTab === 'profile') {
+            <!-- Profile Section -->
+            <div class="bg-white rounded-3xl border border-gray-200 shadow-xl shadow-gray-200/40 overflow-hidden">
+              <div class="p-8 border-b border-gray-100 bg-gray-50/30">
+                <h2 class="text-lg font-bold text-gray-900">Perfil de Usuario</h2>
+                <p class="text-sm text-gray-500 mt-1 font-medium">Actualiza tu información personal y foto de perfil.</p>
+              </div>
+              
+              <div class="p-8 space-y-8">
+                <!-- Avatar Upload -->
+                <div class="flex flex-col sm:flex-row items-center gap-8">
+                  <div class="relative group">
+                      <img 
+                          [src]="profile?.avatar_url || 'https://i.pravatar.cc/150?u=admin'" 
+                          class="w-24 h-24 rounded-3xl object-cover border-4 border-white shadow-xl group-hover:brightness-90 transition-all" 
+                          alt="Profile" 
+                          referrerpolicy="no-referrer" />
+                      <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <mat-icon class="text-white">camera_alt</mat-icon>
+                      </div>
+                  </div>
+                  <div class="text-center sm:text-left">
+                    <label class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-brand-500/20 cursor-pointer block mb-3 active:scale-95">
+                      Cambiar Avatar
+                      <input type="file" class="hidden" (change)="onAvatarSelected($event)" accept="image/*" />
+                    </label>
+                    <p class="text-xs text-gray-400 font-bold uppercase tracking-widest">JPG, GIF o PNG. < 2MB</p>
+                  </div>
                 </div>
-                <div class="text-center sm:text-left">
-                  <label class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-brand-500/20 cursor-pointer block mb-3 active:scale-95">
-                    Cambiar Avatar
-                    <input type="file" class="hidden" (change)="onAvatarSelected($event)" accept="image/*" />
-                  </label>
-                  <p class="text-xs text-gray-400 font-bold uppercase tracking-widest">JPG, GIF o PNG. < 2MB</p>
+
+                <!-- Form Fields -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div class="space-y-2">
+                    <label for="fullName" class="block text-xs font-black text-gray-400 uppercase tracking-widest">Nombre Completo</label>
+                    <input 
+                      id="fullName" 
+                      type="text" 
+                      [(ngModel)]="profile.full_name" 
+                      class="w-full px-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm" />
+                  </div>
+                  
+                  <div class="space-y-2">
+                    <label for="email" class="block text-xs font-black text-gray-400 uppercase tracking-widest">Email (No editable)</label>
+                    <input 
+                      id="email" 
+                      type="email" 
+                      value="admin&#64;tooeasy.com" 
+                      class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold text-gray-400 outline-none cursor-not-allowed" 
+                      disabled />
+                  </div>
+                  
+                  <div class="space-y-2">
+                    <label for="role" class="block text-xs font-black text-gray-400 uppercase tracking-widest">Cargo / Puesto</label>
+                    <input 
+                      id="role" 
+                      type="text" 
+                      [(ngModel)]="profile.role" 
+                      class="w-full px-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm" />
+                  </div>
+                  
+                  <div class="space-y-2">
+                    <label for="timezone" class="block text-xs font-black text-gray-400 uppercase tracking-widest">Zona Horaria</label>
+                    <select 
+                      id="timezone" 
+                      [(ngModel)]="profile.timezone"
+                      class="w-full px-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm">
+                      <option value="Europe/Madrid">Madrid (GMT+1)</option>
+                      <option value="Atlantic/Canary">Canarias (GMT+0)</option>
+                      <option value="America/Bogota">Bogotá (GMT-5)</option>
+                      <option value="America/Mexico_City">México (GMT-6)</option>
+                    </select>
+                  </div>
                 </div>
               </div>
-
-              <!-- Form Fields -->
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="space-y-2">
-                  <label for="fullName" class="block text-xs font-black text-gray-400 uppercase tracking-widest">Nombre Completo</label>
-                  <input 
-                    id="fullName" 
-                    type="text" 
-                    [(ngModel)]="profile.full_name" 
-                    class="w-full px-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm" />
-                </div>
-                
-                <div class="space-y-2">
-                  <label for="email" class="block text-xs font-black text-gray-400 uppercase tracking-widest">Email (No editable)</label>
-                  <input 
-                    id="email" 
-                    type="email" 
-                    value="admin&#64;tooeasy.com" 
-                    class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold text-gray-400 outline-none cursor-not-allowed" 
-                    disabled />
-                </div>
-                
-                <div class="space-y-2">
-                  <label for="role" class="block text-xs font-black text-gray-400 uppercase tracking-widest">Cargo / Puesto</label>
-                  <input 
-                    id="role" 
-                    type="text" 
-                    [(ngModel)]="profile.role" 
-                    class="w-full px-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm" />
-                </div>
-                
-                <div class="space-y-2">
-                  <label for="timezone" class="block text-xs font-black text-gray-400 uppercase tracking-widest">Zona Horaria</label>
-                  <select 
-                    id="timezone" 
-                    [(ngModel)]="profile.timezone"
-                    class="w-full px-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm">
-                    <option value="Europe/Madrid">Madrid (GMT+1)</option>
-                    <option value="Atlantic/Canary">Canarias (GMT+0)</option>
-                    <option value="America/Bogota">Bogotá (GMT-5)</option>
-                    <option value="America/Mexico_City">México (GMT-6)</option>
-                  </select>
-                </div>
+              
+              <div class="p-6 bg-gray-50/50 border-t border-gray-100 flex justify-end">
+                <button 
+                  (click)="saveChanges()"
+                  class="px-8 py-3 bg-brand-600 hover:bg-brand-700 text-white rounded-2xl text-sm font-black uppercase tracking-widest transition-all shadow-lg shadow-brand-500/20 active:scale-95">
+                  Guardar Cambios
+                </button>
               </div>
             </div>
-            
-            <div class="p-6 bg-gray-50/50 border-t border-gray-100 flex justify-end">
-              <button 
-                (click)="saveChanges()"
-                class="px-8 py-3 bg-brand-600 hover:bg-brand-700 text-white rounded-2xl text-sm font-black uppercase tracking-widest transition-all shadow-lg shadow-brand-500/20 active:scale-95">
-                Guardar Cambios
-              </button>
-            </div>
-          </div>
 
-          <!-- Quick Integrations Info -->
-          <div class="bg-white rounded-3xl border border-gray-200 shadow-xl shadow-gray-200/40 overflow-hidden">
-            <div class="p-8 border-b border-gray-100 bg-gray-50/30">
-              <h2 class="text-lg font-bold text-gray-900">Integraciones de Sistema</h2>
+            <!-- Quick Integrations Info -->
+            <div class="bg-white rounded-3xl border border-gray-200 shadow-xl shadow-gray-200/40 overflow-hidden">
+              <div class="p-8 border-b border-gray-100 bg-gray-50/30">
+                <h2 class="text-lg font-bold text-gray-900">Integraciones de Sistema</h2>
+              </div>
+              <div class="p-0">
+                <ul class="divide-y divide-gray-100">
+                  <li class="p-8 flex items-center justify-between group">
+                    <div class="flex items-center gap-5">
+                      <div class="w-14 h-14 bg-gray-50 border border-gray-100 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/12/Google_Drive_icon_%282020%29.svg" alt="Drive" class="w-7 h-7" />
+                      </div>
+                      <div>
+                        <p class="text-sm font-bold text-gray-900">Google Drive</p>
+                        <p class="text-[11px] font-bold text-emerald-600 uppercase tracking-widest flex items-center gap-1.5">
+                          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                          Sincronización Activa
+                        </p>
+                      </div>
+                    </div>
+                    <mat-icon class="text-gray-300 group-hover:text-brand-500 transition-colors">check_circle</mat-icon>
+                  </li>
+                  <li class="p-8 flex items-center justify-between group">
+                    <div class="flex items-center gap-5">
+                      <div class="w-14 h-14 bg-gray-50 border border-gray-100 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Slack_icon_2019.svg" alt="Slack" class="w-7 h-7" />
+                      </div>
+                      <div>
+                        <p class="text-sm font-bold text-gray-900">Slack Notifications</p>
+                        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Pendiente de Configurar</p>
+                      </div>
+                    </div>
+                    <button class="px-4 py-2 border border-gray-200 text-gray-600 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-gray-50 transition-all">
+                      Conectar
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </div>
-            <div class="p-0">
-              <ul class="divide-y divide-gray-100">
-                <li class="p-8 flex items-center justify-between group">
-                  <div class="flex items-center gap-5">
-                    <div class="w-14 h-14 bg-gray-50 border border-gray-100 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110">
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/1/12/Google_Drive_icon_%282020%29.svg" alt="Drive" class="w-7 h-7" />
-                    </div>
-                    <div>
-                      <p class="text-sm font-bold text-gray-900">Google Drive</p>
-                      <p class="text-[11px] font-bold text-emerald-600 uppercase tracking-widest flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                        Sincronización Activa
-                      </p>
-                    </div>
-                  </div>
-                  <mat-icon class="text-gray-300 group-hover:text-brand-500 transition-colors">check_circle</mat-icon>
-                </li>
-                <li class="p-8 flex items-center justify-between group">
-                  <div class="flex items-center gap-5">
-                    <div class="w-14 h-14 bg-gray-50 border border-gray-100 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110">
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Slack_icon_2019.svg" alt="Slack" class="w-7 h-7" />
-                    </div>
-                    <div>
-                      <p class="text-sm font-bold text-gray-900">Slack Notifications</p>
-                      <p class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Pendiente de Configurar</p>
-                    </div>
-                  </div>
-                  <button class="px-4 py-2 border border-gray-200 text-gray-600 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-gray-50 transition-all">
-                    Conectar
-                  </button>
-                </li>
-              </ul>
+          } @else if (currentTab === 'team') {
+            <!-- Team Section -->
+            <div class="bg-white rounded-3xl border border-gray-200 shadow-xl shadow-gray-200/40 overflow-hidden">
+              <div class="p-8 border-b border-gray-100 bg-gray-50/30 flex justify-between items-center">
+                <div>
+                    <h2 class="text-lg font-bold text-gray-900">Equipo y Roles</h2>
+                    <p class="text-sm text-gray-500 mt-1 font-medium">Gestiona tu equipo de trabajo actual.</p>
+                </div>
+                <button class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-brand-500/20 flex items-center gap-2">
+                    <mat-icon class="!w-5 !h-5 !text-[20px]">person_add</mat-icon> Iniciar Invitación
+                </button>
+              </div>
+
+              <div class="p-0">
+                  <table class="w-full text-left border-collapse">
+                      <thead>
+                        <tr class="bg-gray-50/50 border-b border-gray-100 text-[10px] uppercase font-bold text-gray-400 tracking-wider">
+                          <th class="px-8 py-4">Miembro</th>
+                          <th class="px-8 py-4">Rol en el Workspace</th>
+                          <th class="px-8 py-4 text-right">Acciones</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-gray-50">
+                        @for (member of teamList; track member.id) {
+                            <tr class="hover:bg-brand-50/20 transition-colors group">
+                                <td class="px-8 py-4">
+                                    <div class="flex items-center gap-4">
+                                        <img 
+                                            [src]="member.avatar_url || 'https://i.pravatar.cc/150?u=' + member.id" 
+                                            class="w-10 h-10 rounded-full border-2 border-white shadow-sm"
+                                            referrerpolicy="no-referrer" />
+                                        <div>
+                                            <p class="text-sm font-bold text-gray-900">{{ member.full_name }}</p>
+                                            <p class="text-[11px] text-gray-400 font-bold uppercase tracking-widest">{{ member.role || 'Miembro' }}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-8 py-4">
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest border"
+                                        [class.bg-brand-50]="member.role?.toLowerCase() === 'admin' || member.role?.toLowerCase() === 'ceo & founder'"
+                                        [class.text-brand-600]="member.role?.toLowerCase() === 'admin' || member.role?.toLowerCase() === 'ceo & founder'"
+                                        [class.border-brand-100]="member.role?.toLowerCase() === 'admin' || member.role?.toLowerCase() === 'ceo & founder'"
+                                        [class.bg-gray-50]="member.role?.toLowerCase() !== 'admin' && member.role?.toLowerCase() !== 'ceo & founder'"
+                                        [class.text-gray-600]="member.role?.toLowerCase() !== 'admin' && member.role?.toLowerCase() !== 'ceo & founder'"
+                                        [class.border-gray-200]="member.role?.toLowerCase() !== 'admin' && member.role?.toLowerCase() !== 'ceo & founder'">
+                                        {{ member.role || 'Miembro' }}
+                                    </span>
+                                </td>
+                                <td class="px-8 py-4 text-right">
+                                    <button class="p-2 text-gray-400 hover:text-brand-600 hover:bg-brand-50 rounded-xl transition-all" title="Editar Permisos">
+                                        <mat-icon class="!w-5 !h-5 !text-[20px]">edit</mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                      </tbody>
+                  </table>
+              </div>
             </div>
-          </div>
+          }
 
         </div>
       </div>
@@ -205,15 +266,22 @@ export class SettingsComponent implements OnInit {
   isLoading = false;
   showSuccess = false;
 
+  currentTab = 'profile';
+  teamList: any[] = [];
+
   ngOnInit() {
-    this.loadProfile();
+    this.loadData();
   }
 
-  async loadProfile() {
+  async loadData() {
     try {
-      const data = await this.supabase.getMyProfile();
-      if (data) {
-        this.profile = { ...data };
+      const [profileData, teamData] = await Promise.all([
+         this.supabase.getMyProfile(),
+         this.supabase.getProfiles()
+      ]);
+
+      if (profileData) {
+        this.profile = { ...profileData };
       } else {
         // Fallback for demo if single() fails
         this.profile = {
@@ -224,9 +292,10 @@ export class SettingsComponent implements OnInit {
           avatar_url: null
         };
       }
+      this.teamList = teamData || [];
       this.cdr.markForCheck();
     } catch (error) {
-      console.error('Error loading profile:', error);
+      console.error('Error loading settings data:', error);
     }
   }
 

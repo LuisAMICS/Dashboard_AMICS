@@ -299,7 +299,6 @@ import { SupabaseService } from '../../core/services/supabase.service';
                 </div>
               </div>
             }
-            </div>
           }
 
         </div>

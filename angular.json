@@ -56,6 +56,23 @@
               ],
               "outputHashing": "all"
             },
+            "gh-pages": {
+                "outputMode": "static",
+                "baseHref": "/Dashboard_interno_too_easy/",
+                "outputHashing": "all",
+                "budgets": [
+                  {
+                    "type": "initial",
+                    "maximumWarning": "500kB",
+                    "maximumError": "2MB"
+                  },
+                  {
+                    "type": "anyComponentStyle",
+                    "maximumWarning": "4kB",
+                    "maximumError": "8kB"
+                  }
+                ]
+              },
             "development": {
               "optimization": false,
               "extractLicenses": false,

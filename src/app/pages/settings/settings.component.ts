@@ -109,7 +109,7 @@ import { SupabaseService } from '../../core/services/supabase.service';
                     <input 
                       id="email" 
                       type="email" 
-                      [value]="profile.email || 'auto@hazlotooeasy.com'" 
+                      [value]="profile.email || 'admin@amics.com'" 
                       class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold text-gray-400 outline-none cursor-not-allowed" 
                       disabled />
                   </div>

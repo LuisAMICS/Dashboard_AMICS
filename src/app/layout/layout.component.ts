@@ -16,9 +16,9 @@ import { AuthService } from '../core/services/auth.service';
       <aside class="w-64 bg-white border-r border-gray-200 flex flex-col flex-shrink-0 z-20">
         <!-- Logo -->
         <div class="h-16 flex items-center px-6 border-b border-gray-100">
-          <div class="flex items-center gap-2 text-brand-600">
-            <mat-icon class="!w-6 !h-6 !text-[24px]">layers</mat-icon>
-            <span class="font-display font-bold text-lg tracking-tight text-gray-900">Too Easy</span>
+          <div class="flex items-center gap-2">
+            <img src="amics-logo.png" alt="AMICS" class="w-8 h-8 object-contain" />
+            <span class="font-display font-bold text-lg tracking-tight text-gray-900">AMICS</span>
           </div>
         </div>
 

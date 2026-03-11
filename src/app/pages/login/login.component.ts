@@ -20,10 +20,10 @@ import { AuthService } from '../../core/services/auth.service';
         <!-- Logo/Header -->
         <div class="text-center mb-10">
           <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-3xl shadow-xl shadow-brand-500/10 mb-6 border border-gray-50 transform hover:scale-110 transition-transform duration-500">
-            <mat-icon class="!w-10 !h-10 !text-[40px] text-brand-600">rocket_launch</mat-icon>
+            <img src="amics-logo.png" alt="AMICS" class="w-12 h-12 object-contain" />
           </div>
-          <h1 class="text-3xl font-display font-black text-gray-900 tracking-tight mb-2">Too Easy Workspace</h1>
-          <p class="text-gray-500 font-medium">Gestiona tu negocio de la forma más fácil.</p>
+          <h1 class="text-3xl font-display font-black text-gray-900 tracking-tight mb-2">AMICS Workspace</h1>
+          <p class="text-gray-500 font-medium">Gestiona tu negocio con la potencia de AMICS.</p>
         </div>
 
         <!-- Login Card -->
@@ -38,7 +38,7 @@ import { AuthService } from '../../core/services/auth.service';
                   type="email" 
                   [(ngModel)]="email" 
                   name="email"
-                  placeholder="ejemplo@hazlotooeasy.com"
+                  placeholder="ejemplo@amics.com"
                   class="w-full pl-12 pr-4 py-4 bg-gray-50/50 border border-gray-100 rounded-2xl text-sm font-bold focus:bg-white focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all" />
               </div>
             </div>

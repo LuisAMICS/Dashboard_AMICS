@@ -81,13 +81,6 @@ import { AuthService } from '../../core/services/auth.service';
             </button>
           </form>
 
-          <div class="mt-8 pt-8 border-t border-gray-50 text-center">
-            <p class="text-xs text-gray-400 font-bold uppercase tracking-widest mb-4">O accede con un clic</p>
-            <button class="w-full py-3.5 bg-white border border-gray-200 text-gray-700 rounded-2xl text-sm font-bold hover:bg-gray-50 transition-all flex items-center justify-center gap-3 shadow-sm group">
-              <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5 group-hover:scale-110 transition-transform" />
-              Google SSO
-            </button>
-          </div>
         </div>
       </div>
 

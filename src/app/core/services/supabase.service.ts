@@ -33,7 +33,7 @@ export class SupabaseService {
         const { data, error } = await this.supabase
             .from('tasks')
             .select(`id, title, due_date, projects(name)`)
-            .eq('status', 'todo')
+            .eq('status', 'today')
             .limit(5);
 
         if (error) throw error;

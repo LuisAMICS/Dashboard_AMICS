@@ -29,7 +29,7 @@ import { SupabaseService } from '../../core/services/supabase.service';
         </div>
         <div class="flex items-center gap-3">
           <a 
-            href="https://drive.google.com/drive/folders/12H_cAX-oC12La_MjP07YkoaFGTHIN-8p" 
+            href="https://drive.google.com/drive/folders/1X9JSZwEQGhGhf4ZfotHLrU5PBU7O_bYM?usp=sharing" 
             target="_blank"
             class="px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-xl text-sm font-bold hover:bg-gray-50 flex items-center gap-2 transition-all shadow-sm active:scale-95">
             <img src="https://upload.wikimedia.org/wikipedia/commons/1/12/Google_Drive_icon_%282020%29.svg" alt="Drive" class="w-4 h-4" />

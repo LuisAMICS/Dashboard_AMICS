@@ -127,10 +127,15 @@ export class LoginComponent {
         this.errorMessage = '';
 
         try {
-            const { data, error } = await this.authService.signIn(this.email, this.password).toPromise() as any;
+            // Using a race with a timeout of 10s to prevent infinite loading if Supabase hangs
+            const loginPromise = this.authService.signIn(this.email, this.password).toPromise();
+            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('TIMEOUT')), 10000));
+
+            const { data, error } = await Promise.race([loginPromise, timeoutPromise]) as any;
 
             if (error) {
-                this.errorMessage = 'Credenciales inválidas. Revisa el email y contraseña.';
+                console.error('Login Error:', error);
+                this.errorMessage = 'Credenciales inválidas o error de conexión.';
                 this.isLoading = false;
                 return;
             }
@@ -138,10 +143,13 @@ export class LoginComponent {
             this.isSuccess = true;
             setTimeout(() => {
                 this.router.navigate(['/']);
-            }, 1500);
+            }, 1000);
 
-        } catch (err) {
-            this.errorMessage = 'Error técnico de conexión. Inténtalo más tarde.';
+        } catch (err: any) {
+            console.error('Technical login error:', err);
+            this.errorMessage = err.message === 'TIMEOUT' 
+                ? 'El servidor no responde. Revisa tu conexión.' 
+                : 'Error técnico de conexión. Inténtalo más tarde.';
             this.isLoading = false;
         }
     }

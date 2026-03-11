@@ -2,12 +2,12 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import { MatIconModule } from '@angular/material/icon';
 import { SupabaseService } from '../../core/services/supabase.service';
 import { FormsModule } from '@angular/forms';
-import { CurrencyPipe, DatePipe, NgClass } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [MatIconModule, FormsModule, CurrencyPipe, NgClass, DatePipe],
+  imports: [MatIconModule, FormsModule, DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="space-y-6 relative h-full flex flex-col overflow-hidden pb-4">

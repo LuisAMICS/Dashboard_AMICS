@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { CommonModule, CurrencyPipe, PercentPipe } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { SupabaseService } from '../../core/services/supabase.service';
 
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [MatIconModule, CommonModule, CurrencyPipe, PercentPipe],
+  imports: [MatIconModule, CommonModule, CurrencyPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="space-y-6 relative h-full flex flex-col overflow-hidden">

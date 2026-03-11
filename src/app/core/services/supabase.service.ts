@@ -92,6 +92,7 @@ export class SupabaseService {
     async createLead(lead: any) {
         const { data, error } = await this.supabase.from('leads').insert([lead]).select();
         if (error) throw error;
+        await this.logActivity('creó un nuevo lead', 'lead', data[0].id, { company: lead.company_name });
         return data[0];
     }
 
@@ -103,6 +104,7 @@ export class SupabaseService {
             .select();
 
         if (error) throw error;
+        await this.logActivity('actualizó un lead', 'lead', id, { company: updates.company_name });
         return data[0];
     }
 
@@ -193,6 +195,7 @@ export class SupabaseService {
     async createClient(client: any) {
         const { data, error } = await this.supabase.from('clients').insert([client]).select();
         if (error) throw error;
+        await this.logActivity('registró un nuevo cliente', 'client', data[0].id, { name: client.company_name });
         return data[0];
     }
 
@@ -217,6 +220,7 @@ export class SupabaseService {
     async createProject(project: any) {
         const { data, error } = await this.supabase.from('projects').insert([project]).select();
         if (error) throw error;
+        await this.logActivity('inició un nuevo proyecto', 'project', data[0].id, { name: project.name });
         return data[0];
     }
 
@@ -404,10 +408,10 @@ export class SupabaseService {
         const { error } = await this.supabase
             .from('activity_log')
             .insert([{
-                user_id: user?.id || '11111111-1111-1111-1111-111111111111', // Fallback for dev if no user
+                user_id: user?.id || null, // Will use NULL instead of a dummy UUID
                 action,
                 entity_type,
-                entity_id,
+                entity_id: entity_id || user?.id || null, // Ensure entity_id is provided or NULL
                 details
             }]);
         if (error) console.error('Error logging activity:', error);

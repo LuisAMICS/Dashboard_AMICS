@@ -150,6 +150,7 @@ export class LoginComponent {
             this.errorMessage = err.message === 'TIMEOUT' 
                 ? 'El servidor no responde. Revisa tu conexión.' 
                 : 'Error técnico de conexión. Inténtalo más tarde.';
+        } finally {
             this.isLoading = false;
         }
     }

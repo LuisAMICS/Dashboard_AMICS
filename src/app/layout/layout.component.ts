@@ -15,9 +15,9 @@ import { AuthService } from '../core/services/auth.service';
       <!-- Sidebar -->
       <aside class="w-64 bg-white border-r border-gray-200 flex flex-col flex-shrink-0 z-20">
         <!-- Logo -->
-        <div class="h-20 flex items-center border-b border-gray-100">
-          <div class="flex items-center justify-center w-full px-4">
-            <img src="amics-logo.png" alt="AMICS" class="w-32 h-14 object-contain" />
+        <div class="h-28 flex items-center border-b border-gray-100 bg-white">
+          <div class="flex items-center justify-center w-full px-2">
+            <img src="amics-logo.png" alt="AMICS" class="w-56 h-20 object-contain" />
           </div>
         </div>
 

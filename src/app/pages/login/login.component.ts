@@ -18,8 +18,8 @@ import { AuthService } from '../../core/services/auth.service';
 
       <div class="max-w-md w-full relative z-10 transition-all duration-700" [class.opacity-0]="isSuccess" [class.translate-y-4]="isSuccess">
         <!-- Logo/Header -->
-        <div class="text-center mb-8">
-          <div class="inline-flex items-center justify-center w-48 h-48 bg-white rounded-[3rem] shadow-xl shadow-brand-500/10 mb-4 border border-gray-50 transform hover:scale-110 transition-transform duration-500 p-6">
+        <div class="text-center mb-10">
+          <div class="inline-flex items-center justify-center w-64 h-64 bg-white rounded-[4rem] shadow-xl shadow-brand-500/10 mb-6 border border-gray-50 transform hover:scale-110 transition-transform duration-500 p-8">
             <img src="amics-logo.png" alt="AMICS" class="w-full h-full object-contain" />
           </div>
           <p class="text-gray-500 font-medium tracking-wide">Gestiona tu negocio con la potencia de AMICS.</p>

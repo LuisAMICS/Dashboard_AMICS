@@ -58,7 +58,7 @@
             },
             "gh-pages": {
                 "outputMode": "static",
-                "baseHref": "/Dashboard_interno_too_easy/",
+                "baseHref": "/Dashboard_AMICS/",
                 "outputHashing": "all",
                 "budgets": [
                   {

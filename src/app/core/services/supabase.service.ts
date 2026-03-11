@@ -306,42 +306,45 @@ export class SupabaseService {
     }
 
     async uploadDocument(file: File, projectId?: string, clientId?: string) {
+        // 1. Try Google Drive sync (non-blocking — if it fails we still save to Supabase)
+        let driveFileId: string | null = null;
         try {
-            // 1. Sync to Google Drive
             const driveFile = await this.uploadToGoogleDrive(file);
-
-            // 2. Upload to Supabase Storage
-            const fileExt = file.name.split('.').pop();
-            const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
-            const filePath = `docs/${fileName}`;
-
-            const { error: uploadError } = await this.supabase.storage
-                .from('documents')
-                .upload(filePath, file);
-            if (uploadError) throw uploadError;
-
-            // 3. Database Entry
-            const { data: { user } } = await this.supabase.auth.getUser();
-            
-            const { data, error } = await this.supabase.from('documents').insert([{
-                name: file.name,
-                size: file.size,
-                mime_type: file.type || 'application/octet-stream',
-                storage_path: filePath,
-                drive_file_id: driveFile.fileId,
-                project_id: projectId || null,
-                client_id: clientId || null,
-                uploader_id: user?.id || null
-            }]).select();
-
-            if (error) throw error;
-            await this.logActivity('subió un documento', 'document', data[0].id, { fileName: file.name });
-            return data[0];
-        } catch (error) {
-            console.error('Upload Error:', error);
-            throw error;
+            driveFileId = driveFile?.fileId || null;
+        } catch (driveError) {
+            console.warn('[Google Drive] Sync failed (non-critical):', driveError);
+            // Continue without Drive — file will still be saved in Supabase Storage
         }
+
+        // 2. Upload to Supabase Storage
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
+        const filePath = `docs/${fileName}`;
+
+        const { error: uploadError } = await this.supabase.storage
+            .from('documents')
+            .upload(filePath, file);
+        if (uploadError) throw uploadError;
+
+        // 3. Database Entry
+        const { data: { user } } = await this.supabase.auth.getUser();
+
+        const { data, error } = await this.supabase.from('documents').insert([{
+            name: file.name,
+            size: file.size,
+            mime_type: file.type || 'application/octet-stream',
+            storage_path: filePath,
+            drive_file_id: driveFileId,
+            project_id: projectId || null,
+            client_id: clientId || null,
+            uploader_id: user?.id || null
+        }]).select();
+
+        if (error) throw error;
+        await this.logActivity('subió un documento', 'document', data[0].id, { fileName: file.name });
+        return data[0];
     }
+
 
     async deleteFromGoogleDrive(fileId: string) {
         const { data, error } = await this.supabase.functions.invoke('google-drive-sync?fileId=' + fileId, {

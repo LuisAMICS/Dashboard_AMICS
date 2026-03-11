@@ -194,7 +194,7 @@ import { SupabaseService } from '../../core/services/supabase.service';
                     <h2 class="text-lg font-bold text-gray-900">Equipo y Roles</h2>
                     <p class="text-sm text-gray-500 mt-1 font-medium">Gestiona tu equipo de trabajo actual.</p>
                 </div>
-                <button class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-brand-500/20 flex items-center gap-2">
+                <button (click)="openUserModal()" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-brand-500/20 flex items-center gap-2">
                     <mat-icon class="!w-5 !h-5 !text-[20px]">person_add</mat-icon> Iniciar Invitación
                 </button>
               </div>
@@ -235,15 +235,70 @@ import { SupabaseService } from '../../core/services/supabase.service';
                                     </span>
                                 </td>
                                 <td class="px-8 py-4 text-right">
-                                    <button class="p-2 text-gray-400 hover:text-brand-600 hover:bg-brand-50 rounded-xl transition-all" title="Editar Permisos">
-                                        <mat-icon class="!w-5 !h-5 !text-[20px]">edit</mat-icon>
-                                    </button>
+                                    <div class="flex items-center justify-end gap-2">
+                                        <button class="p-2 text-gray-400 hover:text-brand-600 hover:bg-brand-50 rounded-xl transition-all" title="Editar Permisos">
+                                            <mat-icon class="!w-5 !h-5 !text-[20px]">edit</mat-icon>
+                                        </button>
+                                        <button (click)="removeUser(member)" class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all" title="Eliminar Usuario">
+                                            <mat-icon class="!w-5 !h-5 !text-[20px]">delete_outline</mat-icon>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         }
                       </tbody>
                   </table>
               </div>
+            </div>
+
+            <!-- Modal Añadir Usuario -->
+            @if(showUserModal) {
+              <div class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                <div class="bg-white rounded-[2rem] w-full max-w-lg shadow-2xl animate-in zoom-in-95 duration-200 overflow-hidden">
+                    <div class="px-8 py-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                        <div>
+                            <h2 class="text-xl font-bold text-gray-900">Invitar al Equipo</h2>
+                            <p class="text-sm text-gray-500 mt-1 font-medium">Añade un nuevo colaborador al workspace.</p>
+                        </div>
+                        <button (click)="closeUserModal()" class="text-gray-400 hover:text-gray-600 hover:bg-white p-2 rounded-full transition-colors shadow-sm">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+
+                    <div class="p-8 space-y-6">
+                        <div class="space-y-2">
+                            <label class="block text-xs font-black text-gray-400 uppercase tracking-widest">Nombre Completo</label>
+                            <input type="text" [(ngModel)]="newUser.full_name" placeholder="Ej: Maria Lopez" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all" />
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="block text-xs font-black text-gray-400 uppercase tracking-widest">Email</label>
+                            <input type="email" [(ngModel)]="newUser.email" placeholder="maria@ejemplo.com" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all" />
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="block text-xs font-black text-gray-400 uppercase tracking-widest">Contraseña Temporal</label>
+                            <input type="text" [(ngModel)]="newUser.password" placeholder="Mínimo 6 caracteres" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all" />
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="block text-xs font-black text-gray-400 uppercase tracking-widest">Rol Asignado</label>
+                            <select [(ngModel)]="newUser.role" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all">
+                                <option value="Miembro">Miembro (Por defecto)</option>
+                                <option value="Admin">Administrador</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="px-8 py-6 bg-gray-50/80 border-t border-gray-100 flex justify-end gap-3">
+                        <button (click)="closeUserModal()" class="px-6 py-2.5 text-gray-600 hover:bg-white rounded-xl text-sm font-bold transition-all shadow-sm">Cancelar</button>
+                        <button (click)="inviteUser()" class="px-6 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-sm font-bold uppercase tracking-widest transition-all shadow-lg shadow-brand-500/25 active:scale-95 flex items-center gap-2">
+                            Enviar Invitación <mat-icon class="!w-4 !h-4 !text-[16px]">send</mat-icon>
+                        </button>
+                    </div>
+                </div>
+              </div>
+            }
             </div>
           }
 
@@ -268,6 +323,14 @@ export class SettingsComponent implements OnInit {
 
   currentTab = 'profile';
   teamList: any[] = [];
+  
+  showUserModal = false;
+  newUser = {
+      full_name: '',
+      email: '',
+      password: '',
+      role: 'Miembro'
+  };
 
   ngOnInit() {
     this.loadData();
@@ -344,5 +407,70 @@ export class SettingsComponent implements OnInit {
       this.isLoading = false;
       this.cdr.markForCheck();
     }
+  }
+  
+  openUserModal() {
+      this.newUser = { full_name: '', email: '', password: '', role: 'Miembro' };
+      this.showUserModal = true;
+      this.cdr.markForCheck();
+  }
+  
+  closeUserModal() {
+      this.showUserModal = false;
+      this.cdr.markForCheck();
+  }
+  
+  async inviteUser() {
+      if (!this.newUser.full_name || !this.newUser.email || !this.newUser.password) {
+          alert('Por favor, completa nombre, email y contraseña.');
+          return;
+      }
+      
+      this.isLoading = true;
+      this.cdr.markForCheck();
+      
+      try {
+          await this.supabase.createUser({
+              email: this.newUser.email,
+              password: this.newUser.password,
+              full_name: this.newUser.full_name,
+              role: this.newUser.role
+          });
+          
+          this.closeUserModal();
+          this.showSuccess = true;
+          await this.loadData();
+          setTimeout(() => { this.showSuccess = false; this.cdr.markForCheck(); }, 3000);
+      } catch (err) {
+          console.error(err);
+          alert('Hubo un error al invitar al usuario. Asegúrate de tener permisos de Admin o CEO.');
+      } finally {
+          this.isLoading = false;
+          this.cdr.markForCheck();
+      }
+  }
+  
+  async removeUser(member: any) {
+       // Protect yourself from being deleted
+       if (member.id === this.profile.id) {
+           alert("No puedes eliminarte a ti mismo.");
+           return;
+       }
+       if (confirm(`¿Estás seguro de que deseas eliminar permanentemente a ${member.full_name}?`)) {
+           this.isLoading = true;
+           this.cdr.markForCheck();
+           try {
+               await this.supabase.deleteUser(member.id);
+               this.showSuccess = true;
+               await this.loadData();
+               setTimeout(() => { this.showSuccess = false; this.cdr.markForCheck(); }, 3000);
+           } catch(err) {
+               console.error(err);
+               alert('Error al eliminar el usuario. Comprueba tus permisos.');
+           } finally {
+               this.isLoading = false;
+               this.cdr.markForCheck();
+           }
+       }
   }
 }

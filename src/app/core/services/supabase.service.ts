@@ -262,6 +262,22 @@ export class SupabaseService {
         return data;
     }
 
+    async createUser(userData: any) {
+        const { data, error } = await this.supabase.functions.invoke('manage-users', {
+            body: userData
+        });
+        if (error) throw error;
+        return data;
+    }
+
+    async deleteUser(userId: string) {
+        const { data, error } = await this.supabase.functions.invoke('manage-users?userId=' + userId, {
+            method: 'DELETE'
+        });
+        if (error) throw error;
+        return data;
+    }
+
     // --- Documents & Google Drive ---
     async getDocuments() {
         const { data, error } = await this.supabase
